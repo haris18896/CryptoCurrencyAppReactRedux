@@ -383,4 +383,13 @@ width: 70%;
     align-items: center;
 }
 
+.spinner{
+    height: '200px';
+    width: '200px';
+    margin: auto;
+    display: block;
+}
+
+
+
 
