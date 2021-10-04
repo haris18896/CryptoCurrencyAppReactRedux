@@ -74,4 +74,33 @@ function HomePage() {
 
     //............
 ```
-and that's where we can use a `loading` component   
+and that's where we can use a `loading` component.    
+
+Now makeing use of  `data`.
+    `const globalStates = data?.data?.stats;`
+
+now we can use this globalStates object to get data from api. and we can do it like this in the `HomePage.jsx`.
+
+```jsx
+// src/components/homepage/HomePage.jsx
+//............
+<Col span={12}><Statistic title="Total Crypto Currencies" value={globalStats.total} /></Col>
+<Col span={12}><Statistic title="Total Exchanges" value={millify(globalStats.totalExchanges)} /></Col>
+<Col span={12}><Statistic title="Total Market Cap" value={millify(globalStats.totalMarketCap)} /></Col>
+<Col span={12}><Statistic title="Total 24th Volume" value={millify(globalStats.total24hVolume)} /></Col>
+<Col span={12}><Statistic title="Total Markets" value={millify(globalStats.totalMarkets)} /></Col>
+```
+
+for the remaining data we are going to use `millify` to format our data.
+
+at this point our api is successfully working, and fetching data.
+
+* now it's time to fetch data about each specific cryptoCurrency, and then `map` over it display it in the `HomePage.jsx` 
+
+
+
+
+
+
+
+
