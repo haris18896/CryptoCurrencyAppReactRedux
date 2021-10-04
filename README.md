@@ -97,6 +97,38 @@ at this point our api is successfully working, and fetching data.
 
 * now it's time to fetch data about each specific cryptoCurrency, and then `map` over it display it in the `HomePage.jsx` 
 
+```jsx
+// /src/components/homepage/HomePage.jsx
+
+//.....
+return(
+    <>
+        // .....
+        <Row>
+            //.......
+        </Row>
+
+                    <div className="home-heading-container">
+                <Title level={2} className="home-title">Top 10 Cryptocurrencies</Title>
+                <Title level={2} className="home-more">
+                    <Link to="/cryptocurrencies">Show More</Link>
+                </Title>
+            </div>
+            <CryptoCurrencies simplified />
+
+            <div className="home-heading-container">
+                <Title level={2} className="home-title">Latest Crypto News</Title>
+                <Title level={2} className="home-more">
+                    <Link to="/news">Show More</Link>
+                </Title>
+            </div>
+            <News simplified />
+    </>
+)
+```
+
+with `<News simplified />` and `<CryptoCurrencies simplified />` here the `simplified` attribute take cares of showing only `10 items` and not hundred 
+
 
 
 
