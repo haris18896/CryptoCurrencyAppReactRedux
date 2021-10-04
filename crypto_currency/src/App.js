@@ -1,29 +1,29 @@
 import React from 'react';
-import './App.css';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router ,Switch, Route, Link } from 'react-router-dom';
 import { Layout, Typography, Space } from 'antd';
+import './App.css';
 
-import NavBar from './components/navbar/NavBar';
+import Navbar from './components/navbar/Navbar.jsx'
 
-function App() {
-  return (
-    <Router>
-        <div className="App">
+
+
+const App = () => (
+  <Router>
+      <div className="app">
         <div className="navbar">
-          <NavBar />
+            <Navbar />
         </div>
 
         <div className="main">
-        
+
         </div>
 
         <div className="footer">
-        
+
         </div>
-      </div>
-    </Router>
-   
-  );
-}
+    </div>
+  </Router>
+  
+);
 
 export default App;
