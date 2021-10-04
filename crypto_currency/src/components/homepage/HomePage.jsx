@@ -1,4 +1,6 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import millify from 'millify';
 
 function HomePage() {
     return (
