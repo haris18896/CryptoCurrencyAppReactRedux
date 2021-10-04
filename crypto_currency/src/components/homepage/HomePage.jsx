@@ -12,7 +12,7 @@ const { Title } = Typography;
 
 function HomePage() {
 
-    const { data, isFetching } = useGetCryptosQuery();
+    const { data, isFetching } = useGetCryptosQuery(10);
     const globalStats = data?.data?.stats;
 
     if (isFetching) {
