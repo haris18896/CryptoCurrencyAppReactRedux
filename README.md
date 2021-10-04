@@ -87,9 +87,67 @@ function HomePage() {
 * TypeError: Cannot read properties of undefined (reading 'map')
 * *  some Times the list may be empty bcz of that the data cannot be mapped over. so for that add a `?` to the mapping array like this. `{cryptos?.map((currency) => (`
 
+---
+---
+
+adding `Searching` Functionality to the `CryptoCurrencies.jsx` component.
+
+for that we will have to use `useEffect`
+```jsx
+// src/components/cryptoCurrencies/CryptoCurrencies.jsx
+function CryptoCurrencies({ simplified}) {
+
+    const count = simplified ? 10 : 100;
+
+    const { data: cryptosList, isFetching } = useGetCryptosQuery(count);
+    const [ cryptos, setCryptos ] = useState([]);
+
+    const [searchTerm, setSearchTerm] = useState('');
+
+    useEffect(() => {
+        const filteredData = cryptosList?.data?.coins?.filter((coin) => {
+            return coin.name.toLowerCase().includes(searchTerm.toLowerCase());
+        }); 
+
+        setCryptos(filteredData);
+
+    } , [cryptosList, searchTerm]);
+
+    if (isFetching) {
+        return(
+            <Spin className="spinner" size="large" />
+        )
+    }
+
+    return (
+        <>
+            <div className="search-crypto">
+                <Input placeholder="Search Crypto Currency" onChange={(e) => setSearchTerm(e.target.value)} />
+            </div>
+
+            <Row gutter={[32, 32]} className="crypto-card-container">
+                //.....
+                //.....
+                //.....
+```
+
+* * 1. first of all add a div at the top for the `Input` tag
+* * 2. add a placeholder and onChange functionality to that `Input` tag
+* * 3. create a state called `searchTerm` and set it to an empty string `const [searchTerm, setSearchTerm] = useState('');`
+* * 4. after that use `useEffect` to update the `cryptos` state and when updating here we don't have to pass the hard coded state to the `useState` hook for cryptos. we can filter the data here in the `useEffect` hook.
 
 
+```js
+    useEffect(() => {
+        const filteredData = cryptosList?.data?.coins?.filter((coin) => {
+            return coin.name.toLowerCase().includes(searchTerm.toLowerCase());
+        }); 
+
+        setCryptos(filteredData);
+        } , [cryptosList, searchTerm]);
+``` 
 
 
+asd
 
 
