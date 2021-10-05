@@ -156,9 +156,167 @@ export default News
 * Now after the imports we are going to fetch the data.
 
 for the `count` we are going to use the same `simplified` method.
+```jsx
+// /src/components/news/News.jsx
+import React,{useState} from 'react';
+import { Select, Typography, Row, Col, Avatar, Card, Spin} from 'antd';
+import moment from 'moment';
+import { useGetCryptoNewsQuery } from '../../services/cryptoNewsApi'
 
+const { Text, Title } = Typography;
+const { Option } = Select;
 
+const demoImage = 'https://coinrevolution.com/wp-content/uploads/2020/06/cryptonews.jpg'
 
+const News = ({ simplified }) => {
+    const [newsCategory, setNewsCategory] = useState('Cryptocurrency');
+    const { data: cryptoNews } = useGetCryptoNewsQuery({ newsCategory, count: simplified ? 6 : 12 });
+  
+    if (!cryptoNews?.value) return <Spin className="spinner" size="large" />;
+  
+    return (
+      <Row gutter={[24, 24]}>
+        {cryptoNews.value.map((news, i) => (
+          <Col xs={24} sm={12} lg={8} key={i}>
+            <Card hoverable className="news-card">
+              <a href={news.url} target="_blank" rel="noreferrer">
+                <div className="news-image-container">
+                  <Title className="news-title" level={4}>{news.name}</Title>
+                  <img style={{maxWidth: '200px', maxHeight: '100px' }} src={news?.image?.thumbnail?.contentUrl || demoImage} alt="" />
+                </div>
+                <p>{news.description.length > 100 ? `${news.description.substring(0, 100)}...` : news.description}</p>
+                <div className="provider-container">
+                  <div>
+                    <Avatar src={news.provider[0]?.image?.thumbnail?.contentUrl || demoImage} alt="" />
+                    <Text className="provider-name">{news.provider[0]?.name}</Text>
+                  </div>
+                  <Text>{moment(news.datePublished).startOf('ss').fromNow()}</Text>
+                </div>
+              </a>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+    );
+  };
+export default News
+```
+
+---
+---
+
+#### `Select filter`
+Now we are going to add a filter to the `News.jsx` component so that it will show news only related to the specific `coin`.
+
+we already now all the names of the `coins` as it's in the `HomePage.jsx` and `CryptoCurrencies.jsx` components.
+```jsx
+    const { data: cryptosList, isFetching } = useGetCryptosQuery(count);
+```
+
+we don't need `isFetchinig` and `Count` in the News component so the query will be.
+```jsx
+    const { data} = useGetCryptosQuery(100);
+```
+this way we will get all the 100 cryptos as a options, and now we have to `map` over it
+
+* complete search and select option filter
+```jsx
+  // /src/components/news/News.jsx
+  const News = ({ simplified }) => {
+    const [newsCategory, setNewsCategory] = useState('Cryptocurrency');
+    const { data: cryptoNews } = useGetCryptoNewsQuery({ newsCategory, count: simplified ? 6 : 12 });
+    const { data} = useGetCryptosQuery(100);
+
+  
+    if (!cryptoNews?.value) return <Spin className="spinner" size="large" />;
+  
+    return (
+      <Row gutter={[24, 24]}>
+        {!simplified && (
+            <Col span={24}>
+                <Select
+                    showSearch
+                    className="select-news"
+                    placeholder="Select crypto"
+                    optionFilterProp="children"
+                    onChange={(value) => setNewsCategory(value)}
+                    filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    >
+                        <Option className="option-news" value="Cryptocurrency">Cryptocurrency</Option>
+                        {data?.data?.coins.map((coin) => (
+                          <Option value= {coin.name} key={coin.id}>{coin.name}</Option>
+                        ))}
+                    </Select>
+            </Col>
+        )}
+        //......
+        //.......
+```
+#### `Complete Code for News.jsx`
+```jsx
+import React,{useState} from 'react';
+import { Select, Typography, Row, Col, Avatar, Card, Spin} from 'antd';
+import moment from 'moment';
+import { useGetCryptoNewsQuery } from '../../services/cryptoNewsApi';
+import { useGetCryptosQuery } from '../../services/cryptoApi';
+
+const { Text, Title } = Typography;
+const { Option } = Select;
+
+const demoImage = 'https://coinrevolution.com/wp-content/uploads/2020/06/cryptonews.jpg'
+
+const News = ({ simplified }) => {
+    const [newsCategory, setNewsCategory] = useState('Cryptocurrency');
+    const { data: cryptoNews } = useGetCryptoNewsQuery({ newsCategory, count: simplified ? 6 : 12 });
+    const { data} = useGetCryptosQuery(100);
+
+  
+    if (!cryptoNews?.value) return <Spin className="spinner" size="large" />;
+  
+    return (
+      <Row gutter={[24, 24]}>
+        {!simplified && (
+            <Col span={24}>
+                <Select
+                    showSearch
+                    className="select-news"
+                    placeholder="Select crypto"
+                    optionFilterProp="children"
+                    onChange={(value) => setNewsCategory(value)}
+                    filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    >
+                        <Option className="option-news" value="Cryptocurrency">Cryptocurrency</Option>
+                        {data?.data?.coins.map((coin) => (
+                          <Option value= {coin.name} key={coin.id}>{coin.name}</Option>
+                        ))}
+                    </Select>
+            </Col>
+        )}
+        {cryptoNews.value.map((news, i) => (
+          <Col xs={24} sm={12} lg={8} key={i}>
+            <Card hoverable className="news-card">
+              <a href={news.url} target="_blank" rel="noreferrer">
+                <div className="news-image-container">
+                  <Title className="news-title" level={4}>{news.name}</Title>
+                  <img style={{maxWidth: '200px', maxHeight: '100px' }} src={news?.image?.thumbnail?.contentUrl || demoImage} alt="" />
+                </div>
+                <p>{news.description.length > 100 ? `${news.description.substring(0, 100)}...` : news.description}</p>
+                <div className="provider-container">
+                  <div>
+                    <Avatar src={news.provider[0]?.image?.thumbnail?.contentUrl || demoImage} alt="" />
+                    <Text className="provider-name">{news.provider[0]?.name}</Text>
+                  </div>
+                  <Text>{moment(news.datePublished).startOf('ss').fromNow()}</Text>
+                </div>
+              </a>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+    );
+  };
+export default News
+```
 
 
 
