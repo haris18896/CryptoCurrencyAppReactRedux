@@ -6,7 +6,9 @@ import { Row, Col, Select, Typography, Spin } from 'antd';
 import { MoneyCollectOutlined, DollarCircleOutlined, FundOutlined, ExclamationCircleOutlined, StopOutlined,
     TrophyOutlined, CheckOutlined, NumberOutlined, ThunderboltOutlined } from '@ant-design/icons';
 
-import { useGetCryptoDetailsQuery } from '../../services/cryptoApi';
+import { useGetCryptoDetailsQuery, useGetCryptoHistoryQuery } from '../../services/cryptoApi';
+
+import LineChart from '../linechart/LineChart'
 
 
 const { Title, Text } = Typography;
@@ -17,6 +19,7 @@ function CryptoDetails() {
     const { coinId } = useParams();
     const [ timePeriod, setTimePeriod ] = useState('7d');
     const { data, isFetching} = useGetCryptoDetailsQuery(coinId);
+    const { data: coinHistory} = useGetCryptoHistoryQuery(coinId , timePeriod);
 
     const cryptoDetails = data?.data?.coin;
 
@@ -61,6 +64,7 @@ function CryptoDetails() {
             </Select>
 
             {/* Line Chart */}
+            <LineChart coinHistory={coinHistory} currentPrice={millify(cryptoDetails.price)} coinName={cryptoDetails.name} />
 
             <Col className="stats-container">
                 <Col className="coin-value-statistics">
