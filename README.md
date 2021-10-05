@@ -45,7 +45,7 @@ after defining the headers we will have to define the baseUrl that we are fetchi
 // /src/services/cryptoNewsApi.js
 //......
 // defining baseUrl
-const baseUrl = 'https://bing-news-search1.p.rapidapi.com/news/trendingtopics';
+const baseUrl = 'https://bing-news-search1.p.rapidapi.com';
 ```
 after that we are going to define the request that what url is going to be fetched and what is the method that is going to be used.
 ```js
@@ -91,7 +91,7 @@ const cryptoNewsHeaders = {
   }
 
 // defining baseUrl
-const baseUrl = 'https://bing-news-search1.p.rapidapi.com/news/trendingtopics';
+const baseUrl = 'https://bing-news-search1.p.rapidapi.com';
 
 // creating a request to the API
 const createRequest = (url) => ({url, headers: cryptoNewsHeaders});
@@ -132,8 +132,30 @@ export default configureStore({
 ---
 
 Now we can use it in the `News.jsx` component
+```jsx
+// /src/components/news/news.jsx
+import React from 'react';
+import { Select, Typography, Row, Col, Avatar, Card} from 'antd';
+import moment from 'moment';
+import { useGetCryptoNewsQuery } from '../../services/cryptoNewsApi'
 
+const { Text, Title } = Typography;
+const { Option } = Select;
+function News() {
 
+    return (
+        <div>
+            <h1>News</h1>
+        </div>
+    )
+}
+
+export default News
+```
+
+* Now after the imports we are going to fetch the data.
+
+for the `count` we are going to use the same `simplified` method.
 
 
 

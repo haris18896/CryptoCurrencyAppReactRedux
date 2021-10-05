@@ -4,7 +4,7 @@ import millify from 'millify';
 import { Typography, Row, Col, Statistic, Spin} from 'antd';
 import { useGetCryptosQuery } from '../../services/cryptoApi';
 import CryptoCurrencies from '../cryptoCurrencies/CryptoCurrencies';
-import News from '../news/News'
+import News from '../news/News';
 
 
 
