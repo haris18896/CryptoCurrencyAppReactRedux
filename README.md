@@ -1,4 +1,1 @@
 # CryptoCurrencyAppReactRedux
-
-## `Firebase`
-
