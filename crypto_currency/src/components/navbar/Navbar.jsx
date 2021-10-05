@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { Avatar, Typography, Menu, Button } from 'antd';
 import { HomeOutlined, MoneyCollectOutlined, BulbOutlined, FundOutlined, MenuOutlined } from '@ant-design/icons';
@@ -7,6 +7,29 @@ import { HomeOutlined, MoneyCollectOutlined, BulbOutlined, FundOutlined, MenuOut
 import icon from '../../assets/images/cryptocurrency.png'
 
 function NavBar() {
+
+    const [activeMenu, setActiveMenu ] = useState(true);
+    const [screenSize, setScreenSize] = useState(null);
+
+    useEffect(() => {
+        const handleResize = () => setScreenSize(window.innerWidth)     // this is how we get the width of the screen
+
+        window.addEventListener('resize', handleResize);
+
+        handleResize();
+
+        return () => window.removeEventListener('resize', handleResize);
+    },[])
+
+    useEffect(() => {
+        // this useEffect will be called whenever the screen size changes.
+        if(screenSize < 768){
+            setActiveMenu(false);
+        }else{
+            setActiveMenu(true)
+        }
+    },[screenSize])
+
     return (
         <div className="nav-container">
             <div className="logo-container">
@@ -14,23 +37,24 @@ function NavBar() {
                 <Typography.Title level={2} className="logo">
                     <Link to="/">CryptoVerse</Link>
                 </Typography.Title>
-                <Button className="menu-control-container"><MenuOutlined /></Button>
+                <Button className="menu-control-container" onClick={() => setActiveMenu(!activeMenu)}><MenuOutlined /></Button>
             </div>
-
-                <Menu theme="dark">
-                    <Menu.Item icon={<HomeOutlined />}>
-                        <Link to="/">Home</Link>
-                    </Menu.Item>
-                    <Menu.Item icon={<FundOutlined />}>
-                        <Link to="/cryptocurrencies">Cryptocurrencies</Link>
-                    </Menu.Item>
-                    <Menu.Item icon={<MoneyCollectOutlined />}>
-                        <Link to="/exchanges">Exchanges</Link>
-                    </Menu.Item>
-                    <Menu.Item icon={<BulbOutlined />}>
-                        <Link to="/news">News</Link>
-                    </Menu.Item>
-                </Menu>
+                {activeMenu && (
+                    <Menu theme="dark">
+                        <Menu.Item icon={<HomeOutlined />}>
+                            <Link to="/">Home</Link>
+                        </Menu.Item>
+                        <Menu.Item icon={<FundOutlined />}>
+                            <Link to="/cryptocurrencies">Cryptocurrencies</Link>
+                        </Menu.Item>
+                        <Menu.Item icon={<MoneyCollectOutlined />}>
+                            <Link to="/exchanges">Exchanges</Link>
+                        </Menu.Item>
+                        <Menu.Item icon={<BulbOutlined />}>
+                            <Link to="/news">News</Link>
+                        </Menu.Item>
+                    </Menu>
+                )}
             </div>
 
     )

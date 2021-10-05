@@ -12,6 +12,7 @@ const { Title, Text } = Typography;
 const { Option } = Select;
 
 const CryptoDetails = () => {
+    
   const { coinId } = useParams();
   const [timeperiod, setTimeperiod] = useState('7d');
   const { data, isFetching } = useGetCryptoDetailsQuery(coinId);
