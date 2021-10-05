@@ -30,10 +30,12 @@ function CryptoCurrencies({ simplified}) {
 
     return (
         <>
-            <div className="search-crypto">
-                <Input placeholder="Search Crypto Currency" onChange={(e) => setSearchTerm(e.target.value)} />
-            </div>
-
+            {!simplified && (
+                <div className="search-crypto">
+                    <Input placeholder="Search Crypto Currency" onChange={(e) => setSearchTerm(e.target.value)} />
+                </div>
+            )}
+            
             <Row gutter={[32, 32]} className="crypto-card-container">
                 {cryptos?.map((currency) => (
                     <Col xs={24} sm={12} md={8} lg={6} xl={4} key={currency.id} className="crypto-card">

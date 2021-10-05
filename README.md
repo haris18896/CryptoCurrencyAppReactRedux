@@ -148,6 +148,25 @@ function CryptoCurrencies({ simplified}) {
 ``` 
 
 
-asd
+---
+---
+
+### `Removing Search from HomePage`
+
+to do that we will have to go to the `CryptoCurrencies.jsx` and use the property that we have created and called `simplified`. we will say that if the `simplified` is not true then we will render the `Search`
+
+```jsx
+// /src/components/cryptoCurrencies/CryptoCurrencies.jsx
+    return (
+        <>
+            {!simplified && (
+                <div className="search-crypto">
+                    <Input placeholder="Search Crypto Currency" onChange={(e) => setSearchTerm(e.target.value)} />
+                </div>
+            )}
+```
+
+
+
 
 
